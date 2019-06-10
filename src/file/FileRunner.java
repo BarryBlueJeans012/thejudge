@@ -1,3 +1,5 @@
+package file;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,12 +24,15 @@ public class FileRunner {
         return finish - start;
     }
 
-    public void runFile(String fileName) {
+    public void runFile(String fileName, String fileOutName) {
         try {
             String line;
             System.out.println("Building process");
             startTimer();
-            Process p = Runtime.getRuntime().exec("java " + fileName);
+            String className = fileName.replace(".java", "");
+            Process p = Runtime.getRuntime()
+                    .exec("javac " + fileName
+                            + "&& java " + className + " | tee " + fileOutName);
             InputStream in = p.getInputStream();
             BufferedReader stream = new BufferedReader(new InputStreamReader(in));
             while ((line = stream.readLine()) != null) {
@@ -38,5 +43,15 @@ public class FileRunner {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static void main(String []args)
+    {
+        FileRunner execute = new FileRunner();
+        execute.runFile(args[0], args[1]);
+        // you have to set intellij to pass the file names as args (absolute path)
+        // go to run > edit configuration > program arguments
+        System.out.println("Done");
+
     }
 }
