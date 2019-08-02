@@ -1,20 +1,21 @@
 package file;
 
-// args[] : /Users/jessehenrick/IdeaProjects/thejudge/src/test/TestCase.java /Users/jessehenrick/IdeaProjects/thejudge/src/test/output.txt
-
 import java.io.File;
 
 public class FileRunWithProcessBuilder
 {
     private static String className = null;
 
+    private static String home_var = System.getenv("HOME") + "/";
+
+
 
     public static void compile(String fileName)
     {
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command("javac", "test/TestMe.java");
+        builder.command("javac", fileName);
         builder.inheritIO();
-        builder.directory(new File("/Users/jessehenrick/IdeaProjects/thejudge/src"));
+        builder.directory(new File(home_var + "judge_boy"));
         try
         {
             Process process = builder.start();
@@ -38,9 +39,9 @@ public class FileRunWithProcessBuilder
     {
         assert className != null;
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command("java", "test.TestMe");
+        builder.command("java", className);
         builder.inheritIO();
-        builder.directory(new File("/Users/jessehenrick/IdeaProjects/thejudge/src"));
+        builder.directory(new File(home_var + "judge_boy"));
         try
         {
             Process process = builder.start();
@@ -59,7 +60,7 @@ public class FileRunWithProcessBuilder
 
     public static void main(String []args)
     {
-        compile(args[0]);
+        compile("test_me.java");
         run();
     }
 }
