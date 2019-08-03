@@ -5,17 +5,15 @@ import java.io.File;
 public class FileRunWithProcessBuilder
 {
     private static String className = null;
-
-    private static String home_var = System.getenv("HOME") + "/";
-
-
+    private static String home_var = System.getenv("HOME");
 
     public static void compile(String fileName)
     {
         ProcessBuilder builder = new ProcessBuilder();
         builder.command("javac", fileName);
-        builder.inheritIO();
-        builder.directory(new File(home_var + "judge_boy"));
+        //builder.inheritIO();
+        builder.redirectOutput(new File(home_var + "/IdeaProjects/thejudge/src/test/output.txt"));
+        builder.directory(new File(home_var + "/judge_boy"));
         try
         {
             Process process = builder.start();
@@ -40,8 +38,9 @@ public class FileRunWithProcessBuilder
         assert className != null;
         ProcessBuilder builder = new ProcessBuilder();
         builder.command("java", className);
-        builder.inheritIO();
-        builder.directory(new File(home_var + "judge_boy"));
+        //builder.inheritIO();
+        builder.redirectOutput(new File(home_var + "/IdeaProjects/thejudge/src/test/output.txt"));
+        builder.directory(new File(home_var + "/judge_boy"));
         try
         {
             Process process = builder.start();
@@ -54,7 +53,6 @@ public class FileRunWithProcessBuilder
             e.printStackTrace();
         }
     }
-
 
 
 
