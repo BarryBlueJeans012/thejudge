@@ -1,9 +1,15 @@
-FileRunWithProcessBuilder has two methods:
-compile(String fileName)
+FileRunWithProcessBuilder has three methods and a constructor:
+
+FileRunWithProcessBuilder(String fileName)
+
+compile()
+    compiles the java source code file in $HOME/judge_boy/fileName
 run()
+    runs the compiled .class file
+cleanOut()
+    deletes the .class files from the $HOME/judge_boy/out/ folder
 
-compile() searches for the fileName in $HONE/judge_boy/ and compiles it
-run() will only run the file that was compiled with the same instance of the class that was called to compile()
-
+Each instance of FileRunWithProcessBuilder will only compile and run the given source code file.
+To run multiple source files you'll need to create an instance of FileRunWithProcessBuilder for each source file.
 
 
