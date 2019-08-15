@@ -47,11 +47,11 @@ public class FileRunner {
 
     public static void main(String []args)
     {
-        FileRunner execute = new FileRunner();
-        execute.runFile(args[0], args[1]);
+        //FileRunner execute = new FileRunner();
+        //execute.runFile(args[0], args[1]);
         // you have to set intellij to pass the file names as args (absolute path)
         // go to run > edit configuration > program arguments
-        System.out.println("Done");
+        //System.out.println("Done");
 
     }
 }
