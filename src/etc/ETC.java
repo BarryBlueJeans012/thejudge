@@ -2,9 +2,9 @@ package etc;
 
 import java.io.File;
 
-public class Initialize
+public class ETC
 {
-    public Initialize()
+    public static void initializeFiles()
     {
         String homeDirectory = System.getenv("HOME");
         File rootDirectory = new File(homeDirectory + "/judge_boy");
