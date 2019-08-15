@@ -1,4 +1,5 @@
 import etc.ETC;
+import file.Checker;
 import file.FileRunWithProcessBuilder;
 
 public class Main
@@ -14,5 +15,7 @@ public class Main
         runner.compile();
         runner.runMultiple();
         runner.cleanOut();
+        Checker answerChecker = new Checker("test_my_input");
+        System.out.println(answerChecker.checkCorrect() + " lines of the output file matched with the answer file");
     }
 }

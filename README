@@ -1,4 +1,21 @@
-FileRunWithProcessBuilder has three methods and a constructor:
+PathHolder has four methods and a no arg constructor:
+
+getFileName()
+    returns the fileName given to the PathHolder object
+getHomeDirectory()
+    returns the homedirectory for the machine the PathHolder object was created on
+getProjectDirectory()
+    returns the thejudge project directory filepath
+getWorkingDirectory()
+    returns the working directory filepath
+
+PathHolder was created as a class to hold these variables and their getters for its children classes:
+fileName
+homeDirectory
+projectDirectory
+workingDirectory
+
+FileRunWithProcessBuilder has three methods and a constructor, it is a child of PathHolder:
 
 FileRunWithProcessBuilder(String fileName)
 
@@ -6,10 +23,27 @@ compile()
     compiles the java source code file in $HOME/judge_boy/fileName
 run()
     runs the compiled .class file
+runMultiple()
+    runs the compiled.class file multiple times, reading a new line from an input file each time,
+    until there are no more lines in the input file.
 cleanOut()
     deletes the .class files from the $HOME/judge_boy/out/ folder
 
 Each instance of FileRunWithProcessBuilder will only compile and run the given source code file.
 To run multiple source files you'll need to create an instance of FileRunWithProcessBuilder for each source file.
+
+Checker has three methods and a constructor, it is a child of PathHolder:
+
+Checker(String classTested)
+
+getOutputFile()
+    returns the filepath for the output file to be checked
+getAnswerFile()
+    returns the filepath for the answer file to be checked against
+checkCorrect()
+    compares the output file and the answer file and returns how many lines match
+
+Checker, similar to FileRunWithProcessBuilder, will only check one input and one output file, in order to check
+multiple sets of files, you'll need to create a new checker object for each set of files.
 
 

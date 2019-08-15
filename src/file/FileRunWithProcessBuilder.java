@@ -5,14 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 
-public class FileRunWithProcessBuilder
-{
-    private String fileName;
+public class FileRunWithProcessBuilder extends PathHolder {
+
     private String className;
     private boolean hasCompiled = false;
-    private String homeDirectory = System.getenv("HOME");
-    private String projectDirectory = homeDirectory + "/IdeaProjects/thejudge";
-    private String workingDirectory = homeDirectory + "/judge_boy";
     private String outputFile = projectDirectory + "/src/test/output";
     private String inputFile = projectDirectory + "/src/test/input";
     private String errorFile = projectDirectory + "/src/test/error";
