@@ -1,11 +1,14 @@
 package file;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.PrintWriter;
 
 public class FileRunWithProcessBuilder
 {
-    private String fileName = null;
-    private String className = null;
+    private String fileName;
+    private String className;
     private boolean hasCompiled = false;
     private String homeDirectory = System.getenv("HOME");
     private String projectDirectory = homeDirectory + "/IdeaProjects/thejudge";
@@ -24,11 +27,11 @@ public class FileRunWithProcessBuilder
 
     public void compile()
     {
-        assert fileName != null;
+        assert fileName != null : "fileName is null";
         ProcessBuilder builder = new ProcessBuilder();
         builder.command("javac", "-d", "out", fileName);
         builder.inheritIO();
-        //builder.redirectOutput(new File(outputFile));
+        builder.redirectOutput(new File(outputFile));
         builder.redirectError(new File(errorFile));
         builder.directory(new File(workingDirectory));
         try
@@ -70,6 +73,43 @@ public class FileRunWithProcessBuilder
         }
     }
 
+    /*
+    So I spent several hours digging around and trying to figure out how to get a subprocess to take multiple lines of input
+    which i could iterate through one by one, closing and reopening the process each time.
+    I ended up settling on a (maybe very stupid) solution where the input file has every line of input I want to run
+    Then I write a line from that file into a second input file, where processbuilder reads it and takes that as the input for the subprocess.
+    The output for the subprocess appends to an output file for the class being run.
+    After that subprocess closes, the next line from the first input file is written over the second input file.
+    This way, each line from the first input file is tested in a new process. I'm not sure if this is much slower or if its very inefficient
+    compared to another method, but this is all I could figure out.
+    */
+    public void runMultiple() {
+        assert hasCompiled;
+        BufferedReader in;
+        Process process;
+        try {
+            in = new BufferedReader(new FileReader(new File(inputFile)));
+            String line = in.readLine();
+            while (line != null) {
+                PrintWriter writer = new PrintWriter(inputFile + "2");
+                writer.print(line);
+                writer.close();
+                ProcessBuilder builder = new ProcessBuilder();
+                builder.command("java", className);
+                builder.inheritIO();
+                builder.redirectOutput(ProcessBuilder.Redirect.appendTo(new File(outputFile)));
+                builder.redirectInput(new File(inputFile + "2"));
+                builder.directory(new File(workingDirectory + "/out"));
+                process = builder.start();
+                int exitCode = process.waitFor();
+                System.out.println("Execution exited with code: " + exitCode);
+                line = in.readLine();
+            }
+        } catch (Exception e) {
+            System.out.println("There was a fatal error in execution");
+            e.printStackTrace();
+        }
+    }
     public void cleanOut()
     {
        File outDirectory = new File(workingDirectory + "/out");
